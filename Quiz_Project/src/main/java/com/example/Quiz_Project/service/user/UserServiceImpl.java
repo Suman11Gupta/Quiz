@@ -13,6 +13,7 @@ public class UserServiceImpl implements UserService{
   @Autowired
     private UserRepository userRepository;
 
+   //Admin
     @PostConstruct
     private void createAdminUser() {
         User optionalUser = userRepository.findByRole(UserRole.ADMIN);
@@ -29,6 +30,13 @@ public class UserServiceImpl implements UserService{
 
     public Boolean hasUserWithEmail(String email) {
         return userRepository.findFirstByEmail(email) != null;
+    }
+
+  // create user
+  public User createUser(User user){
+        user.setRole(UserRole.USER);
+        return userRepository.save(user);
+
     }
 
 }
