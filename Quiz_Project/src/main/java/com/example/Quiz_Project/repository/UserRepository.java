@@ -10,6 +10,6 @@ User findByRole(UserRole role);
   
 User findFirstByEmail(String email);
 
-User login(User user);
+Optional<User> findByEmail(String email);
   
 }
