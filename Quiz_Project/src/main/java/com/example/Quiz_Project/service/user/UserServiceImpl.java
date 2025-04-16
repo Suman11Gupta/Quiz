@@ -7,13 +7,13 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService{
-  
-  @Autowired
+    @Autowired
     private UserRepository userRepository;
 
-   //Admin
     @PostConstruct
     private void createAdminUser() {
         User optionalUser = userRepository.findByRole(UserRole.ADMIN);
@@ -32,20 +32,17 @@ public class UserServiceImpl implements UserService{
         return userRepository.findFirstByEmail(email) != null;
     }
 
-  // create user
-  public User createUser(User user){
+    public User createUser(User user){
         user.setRole(UserRole.USER);
         return userRepository.save(user);
 
     }
 
-  // login API
-  public User login(User user){
+    public User login(User user){
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
         if (optionalUser.isPresent() && user.getPassword().equals(optionalUser.get().getPassword())){
             return optionalUser.get();
             }
         return null;
         }
-
 }
