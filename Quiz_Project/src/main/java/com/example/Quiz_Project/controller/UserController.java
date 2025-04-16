@@ -16,7 +16,6 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> signupUser(@RequestBody User user){
-        
         if (userService.hasUserWithEmail(user.getEmail())){
             return  new ResponseEntity<>("User Already Exists", HttpStatus.NOT_ACCEPTABLE);
         }
@@ -26,5 +25,14 @@ public class UserController {
         }
 
         return new ResponseEntity<>(createdUser,HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User user){
+        User dbUser = userService.login(user);
+        if (dbUser == null)
+            return new ResponseEntity<>("Invalid Credentials",HttpStatus.NOT_ACCEPTABLE);
+
+        return new ResponseEntity<>(dbUser,HttpStatus.OK);
     }
 }
